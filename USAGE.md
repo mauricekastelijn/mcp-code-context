@@ -221,17 +221,23 @@ By default, the MCP server indexes:
 
 **Custom exclusions:**
 
-Add to your MCP config in VS Code settings:
+Add to your `mcp.json` file:
 
 ```json
 {
-  "mcpServers": {
-    "claude-context": {
-      "env": {
-        "CUSTOM_IGNORE_PATTERNS": "temp/**,*.backup,private/**"
-      }
+    "servers": {
+        "claude-context": {
+            "command": "npx",
+            "args": ["-y", "@zilliz/claude-context-mcp@latest"],
+            "env": {
+                "EMBEDDING_PROVIDER": "Ollama",
+                "MILVUS_ADDRESS": "127.0.0.1:19530",
+                "OLLAMA_HOST": "http://127.0.0.1:11434",
+                "OLLAMA_MODEL": "nomic-embed-text",
+                "CUSTOM_IGNORE_PATTERNS": "temp/**,*.backup,private/**"
+            }
+        }
     }
-  }
 }
 ```
 
@@ -239,13 +245,19 @@ Add to your MCP config in VS Code settings:
 
 ```json
 {
-  "mcpServers": {
-    "claude-context": {
-      "env": {
-        "CUSTOM_EXTENSIONS": ".vue,.svelte,.astro"
-      }
+    "servers": {
+        "claude-context": {
+            "command": "npx",
+            "args": ["-y", "@zilliz/claude-context-mcp@latest"],
+            "env": {
+                "EMBEDDING_PROVIDER": "Ollama",
+                "MILVUS_ADDRESS": "127.0.0.1:19530",
+                "OLLAMA_HOST": "http://127.0.0.1:11434",
+                "OLLAMA_MODEL": "nomic-embed-text",
+                "CUSTOM_EXTENSIONS": ".vue,.svelte,.astro"
+            }
+        }
     }
-  }
 }
 ```
 

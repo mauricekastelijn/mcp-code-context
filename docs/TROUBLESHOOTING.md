@@ -140,21 +140,25 @@ nvm use 20
 
 **Invalid configuration:**
 
-Check your VS Code settings.json:
+Check your VS Code mcp.json file (located in User directory):
+- Windows: `%APPDATA%\Code\User\mcp.json`
+- Linux: `~/.config/Code/User/mcp.json`
+- Mac: `~/Library/Application Support/Code/User/mcp.json`
+
 ```json
 {
-  "mcpServers": {
-    "claude-context": {
-      "command": "npx",
-      "args": ["-y", "@zilliz/claude-context-mcp@latest"],
-      "env": {
-        "EMBEDDING_PROVIDER": "Ollama",
-        "MILVUS_ADDRESS": "127.0.0.1:19530",
-        "OLLAMA_HOST": "http://127.0.0.1:11434",
-        "OLLAMA_MODEL": "nomic-embed-text"
-      }
+    "servers": {
+        "claude-context": {
+            "command": "npx",
+            "args": ["-y", "@zilliz/claude-context-mcp@latest"],
+            "env": {
+                "EMBEDDING_PROVIDER": "Ollama",
+                "MILVUS_ADDRESS": "127.0.0.1:19530",
+                "OLLAMA_HOST": "http://127.0.0.1:11434",
+                "OLLAMA_MODEL": "nomic-embed-text"
+            }
+        }
     }
-  }
 }
 ```
 

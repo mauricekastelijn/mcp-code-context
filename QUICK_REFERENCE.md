@@ -149,24 +149,30 @@ Clear the index for this codebase
 
 ## VS Code MCP Configuration
 
-**Location:** Settings → Edit settings.json
+**Location:** Create `mcp.json` file in VS Code User directory
+
+**Windows:** `%APPDATA%\Code\User\mcp.json`
+**Linux:** `~/.config/Code/User/mcp.json`
+**Mac:** `~/Library/Application Support/Code/User/mcp.json`
 
 ```json
 {
-  "mcpServers": {
-    "claude-context": {
-      "command": "npx",
-      "args": ["-y", "@zilliz/claude-context-mcp@latest"],
-      "env": {
-        "EMBEDDING_PROVIDER": "Ollama",
-        "MILVUS_ADDRESS": "127.0.0.1:19530",
-        "OLLAMA_HOST": "http://127.0.0.1:11434",
-        "OLLAMA_MODEL": "nomic-embed-text"
-      }
+    "servers": {
+        "claude-context": {
+            "command": "npx",
+            "args": ["-y", "@zilliz/claude-context-mcp@latest"],
+            "env": {
+                "EMBEDDING_PROVIDER": "Ollama",
+                "MILVUS_ADDRESS": "127.0.0.1:19530",
+                "OLLAMA_HOST": "http://127.0.0.1:11434",
+                "OLLAMA_MODEL": "nomic-embed-text"
+            }
+        }
     }
-  }
 }
 ```
+
+**Note:** This is a separate `mcp.json` file, not in `settings.json`.
 
 ## Service Endpoints
 

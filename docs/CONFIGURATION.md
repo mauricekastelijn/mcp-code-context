@@ -4,7 +4,12 @@ This guide covers all configuration options for the Claude Context MCP server wi
 
 ## Overview
 
-The MCP server is configured through environment variables in your VS Code settings.json file. This guide explains each option and provides examples for different use cases.
+The MCP server is configured through environment variables in a separate `mcp.json` file in your VS Code User directory. This guide explains each option and provides examples for different use cases.
+
+**File location:**
+- Windows: `%APPDATA%\Code\User\mcp.json`
+- Linux: `~/.config/Code/User/mcp.json`
+- Mac: `~/Library/Application Support/Code/User/mcp.json`
 
 ## Basic Configuration
 
@@ -12,18 +17,18 @@ The MCP server is configured through environment variables in your VS Code setti
 
 ```json
 {
-  "mcpServers": {
-    "claude-context": {
-      "command": "npx",
-      "args": ["-y", "@zilliz/claude-context-mcp@latest"],
-      "env": {
-        "EMBEDDING_PROVIDER": "Ollama",
-        "MILVUS_ADDRESS": "127.0.0.1:19530",
-        "OLLAMA_HOST": "http://127.0.0.1:11434",
-        "OLLAMA_MODEL": "nomic-embed-text"
-      }
+    "servers": {
+        "claude-context": {
+            "command": "npx",
+            "args": ["-y", "@zilliz/claude-context-mcp@latest"],
+            "env": {
+                "EMBEDDING_PROVIDER": "Ollama",
+                "MILVUS_ADDRESS": "127.0.0.1:19530",
+                "OLLAMA_HOST": "http://127.0.0.1:11434",
+                "OLLAMA_MODEL": "nomic-embed-text"
+            }
+        }
     }
-  }
 }
 ```
 

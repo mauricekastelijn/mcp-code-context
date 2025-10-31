@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2025-10-31
+
+### Changed
+- **MILVUS Version Update** - Updated to v2.6.4 (latest stable release)
+  - `milvusdb/milvus`: v2.4.0 → v2.6.4
+  - `etcd`: v3.5.5 → v3.5.16
+  - `minio`: RELEASE.2023-03-20 → RELEASE.2024-10-13
+  
+- **VS Code MCP Configuration Format** - Updated to new mcp.json format
+  - MCP configuration now goes in separate `mcp.json` file (not settings.json)
+  - Changed from `mcpServers` to `servers` key
+  - Updated all documentation to reflect new format
+  
+- **Documentation Updates**
+  - `VSCODE_SETUP.md` - Complete rewrite for new mcp.json format
+  - `QUICK_REFERENCE.md` - Updated configuration example
+  - `USAGE.md` - Updated all configuration examples
+  - `docs/CONFIGURATION.md` - Updated to use mcp.json format
+  - All examples now use new `servers` format in mcp.json
+
+### Notes
+- **Breaking Change:** VS Code users need to migrate configuration from settings.json to mcp.json
+- Claude Desktop users still use the old `mcpServers` format in claude_desktop_config.json
+- MILVUS v2.6.4 includes performance improvements and bug fixes
+
 ## [1.1.0] - 2025-10-31
 
 ### Added

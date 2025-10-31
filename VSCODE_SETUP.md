@@ -11,54 +11,63 @@ Before configuring the MCP server, ensure:
 
 ## Configuration Steps
 
-### Option 1: Quick Configuration (Recommended)
+### Step 1: Locate VS Code User Directory
 
-1. **Open VS Code Settings**
-   - Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
-   - Type "Preferences: Open User Settings (JSON)"
-   - Press Enter
-
-2. **Add MCP Server Configuration**
-
-Add the following to your settings.json file:
-
-```json
-{
-  "mcpServers": {
-    "claude-context": {
-      "command": "npx",
-      "args": ["-y", "@zilliz/claude-context-mcp@latest"],
-      "env": {
-        "EMBEDDING_PROVIDER": "Ollama",
-        "MILVUS_ADDRESS": "127.0.0.1:19530",
-        "OLLAMA_HOST": "http://127.0.0.1:11434",
-        "OLLAMA_MODEL": "nomic-embed-text"
-      }
-    }
-  }
-}
-```
-
-3. **Reload VS Code**
-   - Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
-   - Type "Developer: Reload Window"
-   - Press Enter
-
-### Option 2: Using Configuration File
-
-Create or edit the MCP configuration file at:
+The MCP configuration goes in a separate `mcp.json` file (not in settings.json).
 
 **Windows:**
 ```
-%APPDATA%\Code\User\settings.json
+%APPDATA%\Code\User\
+```
+Full path: `C:\Users\YourUsername\AppData\Roaming\Code\User\`
+
+**Linux:**
+```
+~/.config/Code/User/
 ```
 
-**Linux/Mac:**
+**Mac:**
 ```
-~/.config/Code/User/settings.json
+~/Library/Application Support/Code/User/
 ```
 
-Add the configuration from Option 1.
+### Step 2: Create mcp.json File
+
+In the User directory, create a new file named `mcp.json` with the following content:
+
+```json
+{
+    "servers": {
+        "claude-context": {
+            "command": "npx",
+            "args": ["-y", "@zilliz/claude-context-mcp@latest"],
+            "env": {
+                "EMBEDDING_PROVIDER": "Ollama",
+                "MILVUS_ADDRESS": "127.0.0.1:19530",
+                "OLLAMA_HOST": "http://127.0.0.1:11434",
+                "OLLAMA_MODEL": "nomic-embed-text"
+            }
+        }
+    }
+}
+```
+
+**Note:** This is a separate file from `settings.json`. Both files should be in the same directory.
+
+### Step 3: Verify File Location
+
+Your VS Code User directory should now have:
+```
+Code/User/
+  ├── settings.json    (your existing settings)
+  └── mcp.json         (new MCP configuration)
+```
+
+### Step 4: Reload VS Code
+
+1. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
+2. Type "Developer: Reload Window"
+3. Press Enter
 
 ## Configuration Explanation
 
@@ -82,47 +91,47 @@ If you want to use a different Ollama model:
 docker exec ollama ollama pull <model-name>
 ```
 
-2. **Update the configuration:**
+2. **Update mcp.json:**
 ```json
 {
-  "mcpServers": {
-    "claude-context": {
-      "command": "npx",
-      "args": ["-y", "@zilliz/claude-context-mcp@latest"],
-      "env": {
-        "EMBEDDING_PROVIDER": "Ollama",
-        "MILVUS_ADDRESS": "127.0.0.1:19530",
-        "OLLAMA_HOST": "http://127.0.0.1:11434",
-        "OLLAMA_MODEL": "<model-name>"
-      }
+    "servers": {
+        "claude-context": {
+            "command": "npx",
+            "args": ["-y", "@zilliz/claude-context-mcp@latest"],
+            "env": {
+                "EMBEDDING_PROVIDER": "Ollama",
+                "MILVUS_ADDRESS": "127.0.0.1:19530",
+                "OLLAMA_HOST": "http://127.0.0.1:11434",
+                "OLLAMA_MODEL": "<model-name>"
+            }
+        }
     }
-  }
 }
 ```
 
 ### Additional Configuration Options
 
-You can add these optional environment variables:
+You can add these optional environment variables to `mcp.json`:
 
 ```json
 {
-  "mcpServers": {
-    "claude-context": {
-      "command": "npx",
-      "args": ["-y", "@zilliz/claude-context-mcp@latest"],
-      "env": {
-        "EMBEDDING_PROVIDER": "Ollama",
-        "MILVUS_ADDRESS": "127.0.0.1:19530",
-        "OLLAMA_HOST": "http://127.0.0.1:11434",
-        "OLLAMA_MODEL": "nomic-embed-text",
-        "HYBRID_MODE": "true",
-        "EMBEDDING_BATCH_SIZE": "100",
-        "SPLITTER_TYPE": "ast",
-        "CUSTOM_EXTENSIONS": ".vue,.svelte,.astro",
-        "CUSTOM_IGNORE_PATTERNS": "temp/**,*.backup"
-      }
+    "servers": {
+        "claude-context": {
+            "command": "npx",
+            "args": ["-y", "@zilliz/claude-context-mcp@latest"],
+            "env": {
+                "EMBEDDING_PROVIDER": "Ollama",
+                "MILVUS_ADDRESS": "127.0.0.1:19530",
+                "OLLAMA_HOST": "http://127.0.0.1:11434",
+                "OLLAMA_MODEL": "nomic-embed-text",
+                "HYBRID_MODE": "true",
+                "EMBEDDING_BATCH_SIZE": "100",
+                "SPLITTER_TYPE": "ast",
+                "CUSTOM_EXTENSIONS": ".vue,.svelte,.astro",
+                "CUSTOM_IGNORE_PATTERNS": "temp/**,*.backup"
+            }
+        }
     }
-  }
 }
 ```
 
@@ -257,7 +266,7 @@ If nothing works, try a complete reset:
 
 Then reconfigure VS Code following the steps above.
 
-## VS Code Alternatives
+## Alternative MCP Clients
 
 ### Claude Desktop
 
@@ -278,7 +287,7 @@ For Claude Desktop, create/edit the configuration file:
 ~/.config/Claude/claude_desktop_config.json
 ```
 
-Add:
+Add (Claude Desktop still uses the older mcpServers format):
 ```json
 {
   "mcpServers": {
@@ -297,6 +306,8 @@ Add:
 ```
 
 Then restart Claude Desktop.
+
+**Note:** Claude Desktop uses a different configuration format than VS Code. Use `mcpServers` for Claude Desktop and `servers` in `mcp.json` for VS Code.
 
 ### Cline (VS Code Extension)
 

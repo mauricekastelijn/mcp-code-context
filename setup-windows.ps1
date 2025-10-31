@@ -64,10 +64,18 @@ if ($existingContainers) {
 Write-Host ""
 Write-Host "[3/6] Starting Docker containers..." -ForegroundColor Yellow
 Write-Host "This may take a few minutes on first run..." -ForegroundColor Gray
+Write-Host ""
+Write-Host "⏳ Building custom Ollama container (if needed)..." -ForegroundColor Gray
+Write-Host "   This includes corporate CA certificates if present in ollama/res/" -ForegroundColor Gray
+Write-Host ""
 
-Invoke-Expression "$composeCommand up -d"
+Invoke-Expression "$composeCommand up -d --build"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Failed to start Docker containers!" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "If you're behind a corporate proxy and see certificate errors:" -ForegroundColor Yellow
+    Write-Host "  1. Place your CA certificate in: ollama/res/Cisco_Umbrella_Root_CA.cer" -ForegroundColor Yellow
+    Write-Host "  2. See ollama/README.md for instructions" -ForegroundColor Yellow
     exit 1
 }
 

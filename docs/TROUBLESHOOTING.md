@@ -434,6 +434,7 @@ If you ran `docker-compose down -v`, volumes are deleted.
 - "Model not found"
 - Download fails or hangs
 - Partial download
+- Certificate validation errors
 
 #### Diagnosis
 
@@ -446,14 +447,50 @@ docker exec ollama df -h
 
 # Check network
 docker exec ollama curl -I https://ollama.ai
+
+# Check for certificate errors in logs
+docker-compose logs ollama | grep -i certificate
 ```
 
 #### Solutions
+
+**Certificate validation errors (Corporate proxy):**
+
+If you see errors like:
+```
+tls: failed to verify certificate: x509: certificate signed by unknown authority
+```
+
+You're likely behind a corporate proxy. Follow these steps:
+
+1. **Get your CA certificate**
+   - Export from Windows: `certmgr.msc` → Trusted Root → Cisco Umbrella Root CA
+   - Or contact your IT department
+
+2. **Place certificate in the project**
+   ```
+   ollama/res/Cisco_Umbrella_Root_CA.cer
+   ```
+
+3. **Rebuild the Ollama container**
+   ```bash
+   docker-compose down
+   docker-compose build ollama
+   docker-compose up -d
+   ```
+
+4. **Verify certificate is installed**
+   ```bash
+   docker exec ollama ls -la /usr/local/share/ca-certificates/
+   ```
+
+See [ollama/README.md](../ollama/README.md) for detailed instructions.
 
 **Network issues:**
 - Check internet connection
 - Try again later
 - Use VPN if blocked
+- Check firewall settings
 
 **Disk space:**
 ```bash

@@ -70,7 +70,11 @@ services:
   # Ollama - Local LLM Service
   ollama:
     container_name: ollama
-    image: ollama/ollama:latest
+    build:
+      context: ./ollama
+      dockerfile: Dockerfile
+    # Fallback to base image if build context doesn't exist or you don't need custom certs
+    # image: ollama/ollama:latest
     ports:
       - "11434:11434"
     volumes:

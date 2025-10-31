@@ -35,3 +35,9 @@ temp/
 # Docker volumes (tracked via docker-compose)
 # We don't gitignore docker-compose.yml but these are just references
 volumes/
+
+# Certificates (security - never commit certificates)
+ollama/res/*.cer
+ollama/res/*.crt
+ollama/res/*.pem
+!ollama/res/.gitkeep

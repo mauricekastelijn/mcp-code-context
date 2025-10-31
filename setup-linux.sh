@@ -86,8 +86,21 @@ fi
 echo ""
 echo -e "${YELLOW}[3/6] Starting Docker containers...${NC}"
 echo -e "${CYAN}This may take a few minutes on first run...${NC}"
+echo ""
+echo -e "${CYAN}⏳ Building custom Ollama container (if needed)...${NC}"
+echo -e "${CYAN}   This includes corporate CA certificates if present in ollama/res/${NC}"
+echo ""
 
-$COMPOSE_CMD up -d
+$COMPOSE_CMD up -d --build
+
+if [ $? -ne 0 ]; then
+    echo -e "${RED}❌ Failed to start Docker containers!${NC}"
+    echo ""
+    echo -e "${YELLOW}If you're behind a corporate proxy and see certificate errors:${NC}"
+    echo -e "${YELLOW}  1. Place your CA certificate in: ollama/res/Cisco_Umbrella_Root_CA.cer${NC}"
+    echo -e "${YELLOW}  2. See ollama/README.md for instructions${NC}"
+    exit 1
+fi
 
 echo -e "${GREEN}✅ Docker containers started${NC}"
 echo ""

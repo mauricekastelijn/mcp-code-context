@@ -25,6 +25,19 @@ Before you begin, ensure you have:
 - At least **8GB RAM** available for Docker containers
 - At least **4GB disk space** for models and database
 
+### 🏢 Corporate Proxy/Firewall Users
+
+⚠️ **Important:** If you're behind a corporate proxy (e.g., Cisco Umbrella, Zscaler), you'll need to add your CA certificate before running setup.
+
+**Quick steps:**
+1. Export your organization's root CA certificate
+2. Place it in `ollama/res/Cisco_Umbrella_Root_CA.cer`
+3. Run the setup script (it will automatically build with your certificate)
+
+**📖 See [CORPORATE_PROXY_SETUP.md](./CORPORATE_PROXY_SETUP.md) for complete step-by-step instructions.**
+
+If you're **not** behind a corporate proxy, skip this - the default setup will work.
+
 ### Install Docker
 
 **Windows:**
@@ -115,6 +128,7 @@ Check [EXAMPLES.md](./EXAMPLES.md) for practical examples and real-world use cas
 - [VS Code Setup](./VSCODE_SETUP.md) - MCP server configuration in VS Code
 - [Usage Guide](./USAGE.md) - How to use the MCP server
 - [Examples](./EXAMPLES.md) - Practical examples and use cases
+- [Corporate Proxy Setup](./CORPORATE_PROXY_SETUP.md) - Setup behind corporate firewalls
 
 ### Detailed Guides
 - [MILVUS Setup](./docs/MILVUS_SETUP.md) - Detailed MILVUS configuration

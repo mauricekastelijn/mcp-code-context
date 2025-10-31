@@ -15,6 +15,13 @@ chmod +x setup-linux.sh
 ./setup-linux.sh
 ```
 
+### Corporate Proxy Users
+
+**If behind a corporate firewall/proxy:**
+1. Place CA certificate in `ollama/res/Cisco_Umbrella_Root_CA.cer`
+2. Run setup (it will auto-build with certificate)
+3. See [CORPORATE_PROXY_SETUP.md](./CORPORATE_PROXY_SETUP.md) for details
+
 ### Cleanup
 
 **Windows:**
@@ -67,6 +74,13 @@ docker-compose ps
 ### Check Resource Usage
 ```bash
 docker stats
+```
+
+### Rebuild Ollama (after adding certificates)
+```bash
+docker-compose down
+docker-compose build --no-cache ollama
+docker-compose up -d
 ```
 
 ## Ollama Commands
@@ -205,6 +219,21 @@ nvm install 20
 nvm use 20
 ```
 
+### Certificate Errors (Corporate Proxy)
+```bash
+# Error: x509: certificate signed by unknown authority
+# Solution:
+# 1. Get your CA certificate from IT or export from Windows
+# 2. Place in: ollama/res/Cisco_Umbrella_Root_CA.cer
+# 3. Rebuild:
+docker-compose down
+docker-compose build --no-cache ollama
+docker-compose up -d
+
+# Verify certificate installed:
+docker exec ollama ls -la /usr/local/share/ca-certificates/
+```
+
 ## File Locations
 
 ### Configuration Files
@@ -219,12 +248,20 @@ nvm use 20
 
 ### Documentation
 - Main README: [README.md](./README.md)
+- Quick Reference: [QUICK_REFERENCE.md](./QUICK_REFERENCE.md)
 - VS Code Setup: [VSCODE_SETUP.md](./VSCODE_SETUP.md)
 - Usage Guide: [USAGE.md](./USAGE.md)
+- Examples: [EXAMPLES.md](./EXAMPLES.md)
+- Corporate Proxy: [CORPORATE_PROXY_SETUP.md](./CORPORATE_PROXY_SETUP.md)
 - MILVUS Setup: [docs/MILVUS_SETUP.md](./docs/MILVUS_SETUP.md)
 - Ollama Setup: [docs/OLLAMA_SETUP.md](./docs/OLLAMA_SETUP.md)
 - Configuration: [docs/CONFIGURATION.md](./docs/CONFIGURATION.md)
 - Troubleshooting: [docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)
+
+### Custom Ollama Build
+- Dockerfile: `ollama/Dockerfile`
+- Certificate directory: `ollama/res/`
+- Instructions: [ollama/README.md](./ollama/README.md)
 
 ## Backup & Restore
 

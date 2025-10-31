@@ -52,7 +52,32 @@ docker-compose build ollama
 docker-compose up -d
 ```
 
+## What's Included
+
+This custom Dockerfile adds:
+- **curl** - Required for Docker health checks
+- **CA certificate support** - For corporate proxies
+
+The base `ollama/ollama:latest` image doesn't include curl, which causes health checks to fail.
+
 ## Troubleshooting
+
+### Health Check Stuck on "Starting"
+
+If your container is stuck in "starting" status:
+
+```bash
+# Rebuild to ensure curl is installed
+docker-compose down
+docker-compose build --no-cache ollama
+docker-compose up -d
+
+# Verify curl is available
+docker exec ollama which curl
+
+# Test health check manually
+docker exec ollama curl -f http://localhost:11434/api/tags
+```
 
 ### Certificate Not Found During Build
 

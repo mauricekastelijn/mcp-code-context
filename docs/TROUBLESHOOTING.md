@@ -309,6 +309,8 @@ docker stats --no-stream
 - "Connection refused"
 - "ECONNREFUSED"
 - "Cannot connect to MILVUS"
+- Health checks stuck on "starting"
+- Container shows "starting" but never becomes "healthy"
 
 #### Diagnosis
 
@@ -318,13 +320,34 @@ docker ps
 
 # Check container health
 docker inspect milvus-standalone --format='{{.State.Health}}'
+docker inspect ollama --format='{{.State.Health}}'
 
 # Test connectivity
 curl http://127.0.0.1:9091/healthz
 curl http://127.0.0.1:11434/api/tags
+
+# Check logs for errors
+docker-compose logs ollama
+docker-compose logs milvus
 ```
 
 #### Solutions
+
+**Health check stuck on "starting":**
+
+This is usually because the health check command is failing. For Ollama:
+
+```bash
+# Rebuild Ollama with curl installed
+docker-compose down
+docker-compose build --no-cache ollama
+docker-compose up -d
+
+# Or test health check manually
+docker exec ollama curl -f http://localhost:11434/api/tags
+```
+
+If curl is missing in the container, the Dockerfile now includes it.
 
 **Services not started:**
 ```bash

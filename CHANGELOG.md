@@ -6,15 +6,21 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - **Corporate Proxy Support** - Custom Ollama Dockerfile to handle certificate validation errors
-  - `ollama/Dockerfile` - Custom build with CA certificate support
+  - `ollama/Dockerfile` - Custom build with CA certificate support and curl installation
   - `ollama/res/` - Directory for placing corporate CA certificates
   - `ollama/README.md` - Detailed instructions for certificate setup
   - `CORPORATE_PROXY_SETUP.md` - Comprehensive guide for corporate proxy users
   
 ### Changed
-- **docker-compose.yml** - Updated Ollama service to build from custom Dockerfile
+- **docker-compose.yml** - Updated Ollama service configuration
   - Changed from `image: ollama/ollama:latest` to `build: ./ollama`
   - Added fallback option for users without corporate proxy needs
+  - Fixed health check with `CMD-SHELL` syntax and added `start_period: 45s`
+  - Health check now properly waits for Ollama to fully start
+  
+- **ollama/Dockerfile** - Enhanced with additional dependencies
+  - Added curl installation for health checks
+  - Maintains CA certificate installation functionality
   
 - **Setup Scripts** - Enhanced to support custom Ollama builds
   - `setup-windows.ps1` - Added `--build` flag and certificate error messaging
@@ -23,13 +29,15 @@ All notable changes to this project will be documented in this file.
 - **Documentation Updates**
   - `README.md` - Added corporate proxy section in prerequisites
   - `QUICK_REFERENCE.md` - Added certificate troubleshooting section
-  - `docs/TROUBLESHOOTING.md` - Enhanced model download section with certificate errors
+  - `docs/TROUBLESHOOTING.md` - Enhanced with health check troubleshooting and certificate errors
   
 - **.gitignore** - Added rules to exclude certificate files for security
 
 ### Fixed
 - Certificate validation errors when behind corporate proxies (Cisco Umbrella, Zscaler, etc.)
 - Ollama model download failures due to TLS verification issues
+- Ollama health check stuck on "starting" - now properly detects when service is ready
+- Missing curl in Ollama container causing health check failures
 
 ## [1.0.0] - 2025-10-31
 
